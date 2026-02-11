@@ -4,15 +4,15 @@ spring:
       realtime-ranking-service
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/realtime_rank
-    username: root
-    password: root
+    url: jdbc:mysql://localhost:3306/realrank
+    username: hong8159
+    password: 3342
   jpa:
     hibernate:
       ddl-auto: create
     show-sql: true
     properties:
       hibernate.format_sql: true
-      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+      dialect: org.hibernate.dialect.MySQL9InnoDBDialect
 server:
   port: 8080
