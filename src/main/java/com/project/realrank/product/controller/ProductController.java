@@ -1,8 +1,10 @@
 package com.project.realrank.product.controller;
 
+import com.project.realrank.common.constant.ApiResponse;
 import com.project.realrank.product.dto.ProductCreateReqDto;
 import com.project.realrank.product.dto.ProductCreateResDto;
 import com.project.realrank.product.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +20,9 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ProductCreateResDto> createProduct(@RequestBody ProductCreateReqDto productCreateReqDto){
-        return ResponseEntity.ok(productService.createProduct(productCreateReqDto));
+    public ResponseEntity<ApiResponse<?>> createProduct(@Valid @RequestBody ProductCreateReqDto productCreateReqDto){
+        return ResponseEntity.ok(ApiResponse.created(productService.createProduct(productCreateReqDto)));
     }
+
     
 }

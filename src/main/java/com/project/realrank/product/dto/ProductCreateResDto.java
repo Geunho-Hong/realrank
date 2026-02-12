@@ -1,6 +1,7 @@
 package com.project.realrank.product.dto;
 
 import com.project.realrank.product.domain.Product;
+import com.project.realrank.product.domain.ProductCategory;
 
 import java.math.BigDecimal;
 
@@ -8,7 +9,7 @@ public record ProductCreateResDto(
         String productCode,
         String name,
         BigDecimal price,
-        String category,
+        ProductCategory category,
         String description
 ) {
 

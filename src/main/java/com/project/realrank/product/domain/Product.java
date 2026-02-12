@@ -24,11 +24,12 @@ public class Product {
 
     private BigDecimal price;
 
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private ProductCategory category;
 
     private String description;
 
-    public Product(String productCode, String name, BigDecimal price, String category, String description) {
+    public Product(String productCode, String name, BigDecimal price, ProductCategory category, String description) {
         this.productCode = productCode;
         this.name = name;
         this.price = price;
@@ -36,12 +37,12 @@ public class Product {
         this.description = description;
     }
 
-    public static Product from(ProductCreateReqDto productCreateReqDto) {
+    public static Product from(ProductCreateReqDto productCreateReqDto, ProductCategory category) {
         return new Product(
                 productCreateReqDto.productCode(),
                 productCreateReqDto.name(),
                 productCreateReqDto.price(),
-                productCreateReqDto.category(),
+                category,
                 productCreateReqDto.description()
         );
     }

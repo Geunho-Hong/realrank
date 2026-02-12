@@ -1,6 +1,7 @@
 package com.project.realrank.product.service;
 
 import com.project.realrank.product.domain.Product;
+import com.project.realrank.product.domain.ProductCategory;
 import com.project.realrank.product.dto.ProductCreateReqDto;
 import com.project.realrank.product.dto.ProductCreateResDto;
 import com.project.realrank.product.repository.ProductRepository;
@@ -16,7 +17,8 @@ public class ProductService {
 
     @Transactional
     public ProductCreateResDto createProduct(ProductCreateReqDto reqDto) {
-        Product product = Product.from(reqDto);
+        ProductCategory category = ProductCategory.findCategory(reqDto.category());
+        Product product = Product.from(reqDto, category);
         productRepository.save(product);
         return ProductCreateResDto.from(product);
     }
