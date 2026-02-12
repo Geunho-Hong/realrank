@@ -7,10 +7,7 @@ import com.project.realrank.product.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/products")
@@ -22,6 +19,11 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ApiResponse<?>> createProduct(@Valid @RequestBody ProductCreateReqDto productCreateReqDto){
         return ResponseEntity.ok(ApiResponse.created(productService.createProduct(productCreateReqDto)));
+    }
+
+    @GetMapping("/{productCode}")
+    public ResponseEntity<ApiResponse<?>> getProductByProductCode(@PathVariable String productCode) {
+        return ResponseEntity.ok(ApiResponse.ok(productService.getProduct(productCode)));
     }
 
     
