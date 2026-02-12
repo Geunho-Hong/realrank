@@ -3,13 +3,13 @@ spring:
     name:
       realtime-ranking-service
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/realrank
     username: hong8159
     password: 3342
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate.format_sql: true

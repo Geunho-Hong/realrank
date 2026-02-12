@@ -6,9 +6,11 @@ import com.project.realrank.product.dto.ProductCreateReqDto;
 import com.project.realrank.product.dto.ProductCreateResDto;
 import com.project.realrank.product.dto.ProductSearchResDto;
 import com.project.realrank.product.repository.ProductRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,9 +26,19 @@ public class ProductService {
         return ProductCreateResDto.from(product);
     }
 
+    @Transactional(readOnly = true)
     public ProductSearchResDto getProduct(final String productCode) {
         Product product = productRepository.getProductByProductCode(productCode);
         return ProductSearchResDto.from(product);
     }
+
+    @Transactional(readOnly = true)
+    public List<ProductSearchResDto> getProductsByName(String name) {
+        return productRepository.getProductsByNameLike(name + "%")
+                .stream()
+                .map(ProductSearchResDto::from)
+                .toList();
+    }
+
 
 }

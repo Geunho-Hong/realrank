@@ -6,6 +6,7 @@ import com.project.realrank.product.dto.ProductCreateResDto;
 import com.project.realrank.product.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Parameter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,13 @@ public class ProductController {
     }
 
     @GetMapping("/{productCode}")
-    public ResponseEntity<ApiResponse<?>> getProductByProductCode(@PathVariable String productCode) {
+    public ResponseEntity<ApiResponse<?>> getProduct(@PathVariable String productCode) {
         return ResponseEntity.ok(ApiResponse.ok(productService.getProduct(productCode)));
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<?>> getProducts(@RequestParam(name = "name") String name) {
+        return ResponseEntity.ok(ApiResponse.ok(productService.getProductsByName(name)));
     }
 
     
