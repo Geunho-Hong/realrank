@@ -1,6 +1,7 @@
 package com.project.realrank.product.domain;
 
 import com.project.realrank.product.dto.ProductCreateReqDto;
+import com.project.realrank.product.dto.ProductUpdReqDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -52,6 +53,17 @@ public class Product {
                 ProductStatus.ACTIVE,
                 productCreateReqDto.description()
         );
+    }
+
+    public void updateProduct(ProductUpdReqDto productUpdReqDto) {
+        this.name = productUpdReqDto.name();
+        this.price = productUpdReqDto.price();
+        this.category =  ProductCategory.findCategory(productUpdReqDto.category());
+        this.description = productUpdReqDto.description();
+    }
+
+    public void deactivateProduct() {
+        this.status = ProductStatus.INACTIVE;
     }
 
 }

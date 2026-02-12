@@ -3,6 +3,7 @@ package com.project.realrank.product.controller;
 import com.project.realrank.common.constant.ApiResponse;
 import com.project.realrank.product.dto.ProductCreateReqDto;
 import com.project.realrank.product.dto.ProductCreateResDto;
+import com.project.realrank.product.dto.ProductUpdReqDto;
 import com.project.realrank.product.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,16 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getProducts(@RequestParam(name = "name") String name) {
         return ResponseEntity.ok(ApiResponse.ok(productService.getProductsByName(name)));
+    }
+
+    @PatchMapping
+    public ResponseEntity<ApiResponse<?>> updateProduct(@Valid @RequestBody ProductUpdReqDto productUpdReqDto) {
+        return ResponseEntity.ok(ApiResponse.ok(productService.updateProduct(productUpdReqDto)));
+    }
+
+    @DeleteMapping("/{productCode}")
+    public ResponseEntity<ApiResponse<?>> deleteProduct(@PathVariable String productCode) {
+        return ResponseEntity.ok(ApiResponse.ok(productService.deleteProduct(productCode)));
     }
 
     
