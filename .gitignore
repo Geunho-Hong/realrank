@@ -36,5 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-### mysql ###
+### docker-container ###
 mysql-data
+redis_data
