@@ -19,7 +19,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<?>> createProduct(@Valid @RequestBody ProductCreateReqDto productCreateReqDto){
+    public ResponseEntity<ApiResponse<?>> createProduct(@Valid @RequestBody ProductCreateReqDto productCreateReqDto) {
         return ResponseEntity.ok(ApiResponse.created(productService.createProduct(productCreateReqDto)));
     }
 
@@ -33,6 +33,12 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponse.ok(productService.getProductsByName(name)));
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<ApiResponse<?>> getAllProducts(@RequestParam(defaultValue = "0") int page,
+                                                         @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(ApiResponse.ok(productService.getAllProducts(page,size)));
+    }
+
     @PatchMapping
     public ResponseEntity<ApiResponse<?>> updateProduct(@Valid @RequestBody ProductUpdReqDto productUpdReqDto) {
         return ResponseEntity.ok(ApiResponse.ok(productService.updateProduct(productUpdReqDto)));
@@ -43,5 +49,5 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponse.ok(productService.deleteProduct(productCode)));
     }
 
-    
+
 }

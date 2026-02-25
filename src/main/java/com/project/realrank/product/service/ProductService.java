@@ -8,8 +8,12 @@ import com.project.realrank.product.dto.ProductSearchResDto;
 import com.project.realrank.product.dto.ProductUpdReqDto;
 import com.project.realrank.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -34,6 +38,15 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
+    public List<ProductSearchResDto> getAllProducts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> products = productRepository.findAll(pageable);
+        return products.stream()
+                .map(ProductSearchResDto::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
     public List<ProductSearchResDto> getProductsByName(String name) {
         return productRepository.getProductsByNameLike(name + "%")
                 .stream()
@@ -44,7 +57,7 @@ public class ProductService {
     @Transactional
     public boolean updateProduct(ProductUpdReqDto productUpdReqDto) {
         Product product = productRepository.getProductByProductCode(productUpdReqDto.productCode())
-                 .orElseThrow(() -> new IllegalArgumentException("상품이 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("상품이 없습니다."));
         product.updateProduct(productUpdReqDto);
         return true;
     }
@@ -52,7 +65,7 @@ public class ProductService {
     @Transactional
     public boolean deleteProduct(String productCode) {
         Product product = productRepository.getProductByProductCode(productCode)
-                 .orElseThrow(() -> new IllegalArgumentException("상품이 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("상품이 없습니다."));
         product.deactivateProduct();
         return true;
     }
