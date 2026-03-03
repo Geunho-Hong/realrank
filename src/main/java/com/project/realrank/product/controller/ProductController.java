@@ -1,9 +1,7 @@
 package com.project.realrank.product.controller;
 
 import com.project.realrank.common.constant.ApiResponse;
-import com.project.realrank.product.dto.ProductCreateReqDto;
-import com.project.realrank.product.dto.ProductCreateResDto;
-import com.project.realrank.product.dto.ProductUpdReqDto;
+import com.project.realrank.product.dto.*;
 import com.project.realrank.product.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -49,5 +47,14 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponse.ok(productService.deleteProduct(productCode)));
     }
 
+    @PostMapping("/increase/views")
+    public ResponseEntity<ApiResponse<?>> increaseViewCount(@Valid @RequestBody ProductViewCountUpdReqDto productViewCountUpdReqDto) {
+        return ResponseEntity.ok(ApiResponse.ok(productService.increaseViewCount(productViewCountUpdReqDto)));
+    }
+
+    @PostMapping("/increase/likes")
+    public ResponseEntity<ApiResponse<?>> increaseLikeCount(@Valid @RequestBody ProductLikeCountUpdReqDto productLikeCountUpdReqDto) {
+        return ResponseEntity.ok(ApiResponse.ok(productService.increaseLikeCount(productLikeCountUpdReqDto)));
+    }
 
 }

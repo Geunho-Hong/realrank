@@ -1,23 +1,23 @@
 package com.project.realrank.product.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Builder
 @Entity
 @Table(name = "tbl_product_metrics")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class ProductMetrics {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime statDate;
+    private String statDate;
 
     private long viewCount;
 
@@ -39,6 +39,17 @@ public class ProductMetrics {
     public void increaseLike() {
         this.likeCount++;
         this.lastLikedAt = LocalDateTime.now();
+    }
+
+    public static ProductMetrics from(String statDate, Product product) {
+        return ProductMetrics.builder()
+                .statDate(statDate)
+                .viewCount(0)
+                .likeCount(0)
+                .lastViewedAt(LocalDateTime.now())
+                .lastLikedAt(LocalDateTime.now())
+                .product(product)
+                .build();
     }
 
 }

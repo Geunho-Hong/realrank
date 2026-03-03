@@ -2,12 +2,12 @@ package com.project.realrank.product.service;
 
 import com.project.realrank.product.domain.Product;
 import com.project.realrank.product.domain.ProductCategory;
-import com.project.realrank.product.dto.ProductCreateReqDto;
-import com.project.realrank.product.dto.ProductCreateResDto;
-import com.project.realrank.product.dto.ProductSearchResDto;
-import com.project.realrank.product.dto.ProductUpdReqDto;
+import com.project.realrank.product.domain.ProductMetrics;
+import com.project.realrank.product.dto.*;
+import com.project.realrank.product.repository.ProductMetricsRepository;
 import com.project.realrank.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -23,6 +23,7 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductMetricsRepository productMetricsRepository;
 
     @Transactional
     public ProductCreateResDto createProduct(ProductCreateReqDto reqDto) {
@@ -75,5 +76,39 @@ public class ProductService {
         return true;
     }
 
+    @Transactional
+    public boolean increaseViewCount(ProductViewCountUpdReqDto productViewCountUpdReqDto) {
+        final String productCode = productViewCountUpdReqDto.productCode();
+        final String statDate = productViewCountUpdReqDto.statDate();
+        Product product = productRepository.getProductByProductCode(productCode)
+                    .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다"));
+        ProductMetrics productMetrics = productMetricsRepository.findByProduct_ProductCodeAndStatDate(
+                productCode, statDate
+        );
+        if (ObjectUtils.isEmpty(productMetrics)) {
+            productMetricsRepository.save(ProductMetrics.from(statDate,product));
+        } else {
+            productMetrics.increaseView();
+        }
+        return true;
+    }
+
+
+    @Transactional
+    public boolean increaseLikeCount(ProductLikeCountUpdReqDto productLikeCountUpdReqDto) {
+        final String productCode = productLikeCountUpdReqDto.productCode();
+        final String statDate = productLikeCountUpdReqDto.statDate();
+        Product product = productRepository.getProductByProductCode(productCode)
+                    .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다"));
+        ProductMetrics productMetrics = productMetricsRepository.findByProduct_ProductCodeAndStatDate(
+                productCode, statDate
+        );
+        if (ObjectUtils.isEmpty(productMetrics)) {
+            productMetricsRepository.save(ProductMetrics.from(statDate,product));
+        } else {
+            productMetrics.increaseLike();
+        }
+        return true;
+    }
 
 }
