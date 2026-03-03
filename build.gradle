@@ -31,6 +31,7 @@ dependencies {
 
     // gson
     implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
 
     // valid
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -45,6 +46,9 @@ dependencies {
     implementation 'org.apache.commons:commons-collections4:4.4'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'commons-codec:commons-codec:1.16.0'
+
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // test
     testImplementation('org.springframework.boot:spring-boot-starter-test') {

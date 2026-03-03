@@ -8,6 +8,8 @@ import com.project.realrank.product.dto.ProductSearchResDto;
 import com.project.realrank.product.dto.ProductUpdReqDto;
 import com.project.realrank.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,7 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "product:detail", key = "#productCode", sync = true)
     public ProductSearchResDto getProduct(final String productCode) {
         Product product = productRepository.getProductByProductCode(productCode)
                 .orElseThrow(() -> new IllegalArgumentException("상품이 없습니다."));
@@ -55,6 +58,7 @@ public class ProductService {
     }
 
     @Transactional
+    @CacheEvict(cacheNames = "book:detail", key = "#productUpdReqDto.productCode()")
     public boolean updateProduct(ProductUpdReqDto productUpdReqDto) {
         Product product = productRepository.getProductByProductCode(productUpdReqDto.productCode())
                 .orElseThrow(() -> new IllegalArgumentException("상품이 없습니다."));
@@ -63,6 +67,7 @@ public class ProductService {
     }
 
     @Transactional
+    @CacheEvict(cacheNames = "book:detail", key = "#productCode")
     public boolean deleteProduct(String productCode) {
         Product product = productRepository.getProductByProductCode(productCode)
                 .orElseThrow(() -> new IllegalArgumentException("상품이 없습니다."));
