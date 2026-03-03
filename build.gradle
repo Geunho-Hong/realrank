@@ -47,6 +47,10 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'commons-codec:commons-codec:1.16.0'
 
+    // flyway
+	implementation 'org.flywaydb:flyway-mysql'
+    implementation 'org.flywaydb:flyway-core'
+
     // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 

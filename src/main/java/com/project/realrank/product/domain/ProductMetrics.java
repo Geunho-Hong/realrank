@@ -28,7 +28,7 @@ public class ProductMetrics {
     private LocalDateTime lastLikedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_code")
+    @JoinColumn(name = "product_code", referencedColumnName = "product_code")
     private Product product;
 
     public void increaseView() {
