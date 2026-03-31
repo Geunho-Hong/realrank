@@ -4,9 +4,13 @@ spring:
       realtime-ranking-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/realrank
+    url: jdbc:mysql://localhost:3306/realrank?rewriteBatchedStatements=true&profileSQL=false
     username: hong8159
     password: 3342
+    hikari:
+      maximum-pool-size: 20        # 스레드 수(CPU 코어 수)에 여유분 추가
+      minimum-idle: 10
+      connection-timeout: 30000
   jpa:
     hibernate:
       ddl-auto: validate
