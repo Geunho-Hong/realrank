@@ -57,4 +57,10 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponse.ok(productService.increaseLikeCount(productLikeCountUpdReqDto)));
     }
 
+    @GetMapping("/likes")
+    public ResponseEntity<ApiResponse<?>> getLikeCount(@Valid @ModelAttribute ProductLikeCountReqDto reqDto) {
+        return ResponseEntity.ok(ApiResponse.ok(productService.getLikeCount(reqDto)));
+    }
+
+
 }
